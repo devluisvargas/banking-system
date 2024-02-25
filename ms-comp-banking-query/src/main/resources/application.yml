@@ -7,18 +7,17 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
-
   datasource:
-    url: jdbc:mysql://localhost:3306/bankingAccount?createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost:3306/bankingAccount
     username: root
-    password: Devluisvargas1$$
+    password: Devluisvargas1$
 
   kafka:
     listener:
       ack-mode: MANUAL_IMMEDIATE
     consumer:
       bootstrap-servers: localhost:9092
-      group-id: backAccConsumer
+      group-id: bankaccConsumer
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
@@ -26,5 +25,5 @@ spring:
         spring:
           json:
             trusted:
-              package: '*'
+              packages: '*'
 

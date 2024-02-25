@@ -28,7 +28,7 @@ services:
     image: mysql
     restart: always
     environment:
-      MYSQL_DATABASE: 'db'
+      MYSQL_DATABASE: 'bankingAccount'
       MYSQL_USER: 'lbvargas'
       MYSQL_PASSWORD: 'Devluisvargas1$$'
       MYSQL_ROOT_PASSWORD: 'Devluisvargas1$$'
