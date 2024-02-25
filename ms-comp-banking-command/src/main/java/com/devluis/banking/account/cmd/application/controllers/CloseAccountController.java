@@ -1,6 +1,7 @@
 package com.devluis.banking.account.cmd.application.controllers;
 
-import com.devluis.banking.account.cmd.application.command.DepositFundsCommand;
+import com.devluis.banking.account.cmd.application.command.CloseAccountCommand;
+import com.devluis.banking.account.cmd.application.command.WithdrawFundsCommand;
 import com.devluis.banking.account.cmd.application.dto.OpenAccountResponse;
 import com.devluis.banking.account.comman.dto.BaseResponse;
 import com.devluis.banking.cqrs.core.exceptions.AggregateNotFoundException;
@@ -15,20 +16,19 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @RestController
-@RequestMapping(path = "/api/v1/depositFunds")
-public class DepositFundsController {
-    private final Logger logger = Logger.getLogger(DepositFundsController.class.getName());
+@RequestMapping(path = "/api/v1/closeBankAccount")
+public class CloseAccountController {
+    private final Logger logger = Logger.getLogger(CloseAccountController.class.getName());
 
     @Autowired
     private CommandDispatcher commandDispatcher;
 
 
-    @PutMapping("/{id}")
-    public ResponseEntity<BaseResponse> depositFunds(@PathVariable String id, @RequestBody DepositFundsCommand command) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<BaseResponse> closeAccount(@PathVariable String id) {
         try {
-            command.setId(id);
-            commandDispatcher.send(command);
-            return new ResponseEntity<>(new BaseResponse("EL desposito de dinero fue exitoso"), HttpStatus.OK);
+            commandDispatcher.send(new CloseAccountCommand(id));
+            return new ResponseEntity<>(new BaseResponse("Se cerro la cuenta bancaria exitosamente"), HttpStatus.OK);
         } catch (IllegalStateException | AggregateNotFoundException e) {
             logger.log(Level.WARNING, MessageFormat.format("El cliente envio un request con errores - {0}", e.toString()));
             return new ResponseEntity<>(new BaseResponse(e.toString()), HttpStatus.BAD_REQUEST);
